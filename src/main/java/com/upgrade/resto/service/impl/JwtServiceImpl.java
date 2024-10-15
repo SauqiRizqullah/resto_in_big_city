@@ -58,7 +58,19 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateWaiterToken(Waiter waiter) {
-        return "";
+        try {
+            Algorithm algorithm = Algorithm.HMAC512(JWT_SECRET);
+            return JWT.create()
+                    .withSubject(waiter.getWaiterId())
+                    .withClaim("roles", waiter.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
+                    .withIssuedAt(Instant.now())
+                    .withExpiresAt(Instant.now().plusSeconds(JWT_EXPIRATION))
+                    .withIssuer(ISSUER)
+                    .sign(algorithm);
+
+        } catch (JWTCreationException exception){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "error while creating jwt token");
+        }
     }
 
     @Override

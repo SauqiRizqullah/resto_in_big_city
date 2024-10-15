@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 @Getter
 @Builder
-public class RestaurantLoginResponse {
+public class WaiterLoginResponse {
     private String username;
     private String token;
     private List<String> roles;

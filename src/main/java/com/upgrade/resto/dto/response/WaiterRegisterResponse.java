@@ -1,16 +1,16 @@
 package com.upgrade.resto.dto.response;
 
+import com.upgrade.resto.entity.Role;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Generated;
 import lombok.Setter;
 
 import java.util.List;
 
 @Setter
-@Getter
+@Generated
 @Builder
-public class RestaurantLoginResponse {
+public class WaiterRegisterResponse {
     private String username;
-    private String token;
-    private List<String> roles;
+    private List<Role> roles;
 }
