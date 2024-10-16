@@ -2,9 +2,10 @@ package com.upgrade.resto.service.impl;
 
 import com.upgrade.resto.dto.request.WaiterLoginRequest;
 import com.upgrade.resto.dto.request.WaiterRegisterRequest;
+import com.upgrade.resto.dto.response.RestaurantResponse;
 import com.upgrade.resto.dto.response.WaiterLoginResponse;
 import com.upgrade.resto.dto.response.WaiterRegisterResponse;
-import com.upgrade.resto.entity.RestaurantAccount;
+import com.upgrade.resto.entity.Restaurant;
 import com.upgrade.resto.entity.Role;
 import com.upgrade.resto.entity.Waiter;
 import com.upgrade.resto.repository.WaiterRepository;
@@ -34,14 +35,23 @@ public class WaiterAuthServiceImpl implements WaiterAuthService {
 
     private final JwtService jwtService;
 
-    private final RestaurantService restaurantService;
-
     private final WaiterRepository waiterRepository;
+
+    private final RestaurantService restaurantService;
 
     @Override
     public WaiterRegisterResponse registerAccount(WaiterRegisterRequest request) {
 
-        RestaurantAccount restaurantAccount = restaurantService.getByContext();
+//        Restaurant restaurant = restaurantService.getByContext();
+        RestaurantResponse restaurantResponse = restaurantService.getById(request.getRestoId());
+
+        Restaurant resto = Restaurant.builder()
+                .contact(restaurantResponse.getContact())
+                .restoId(restaurantResponse.getRestoId())
+                .city(restaurantResponse.getCity())
+                .province(restaurantResponse.getProvince())
+                .outlet(restaurantResponse.getOutlet())
+                .build();
 
         Role waiterRole = roleService.getById("ROLE002");
 
@@ -52,7 +62,7 @@ public class WaiterAuthServiceImpl implements WaiterAuthService {
                 .waiterName(request.getWaiterName())
                 .phoneNo(request.getPhoneNumber())
                 .role(List.of(waiterRole))
-                .restaurantAccount(restaurantAccount)
+                .restaurant(resto)
                 .build();
 
         waiterRepository.saveAndFlush(waiter);

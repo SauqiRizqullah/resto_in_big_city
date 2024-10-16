@@ -44,7 +44,7 @@ public class Waiter implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "resto_id")
     @JsonBackReference
-    private RestaurantAccount restaurantAccount;
+    private Restaurant restaurant;
     @Column(name = "waiter_name")
     private String waiterName;
     @Pattern(regexp = "^08\\d{8}(\\d{2})?$", message = "Invalid contact number. It must start with '08' and be 10 or 12 digits long.")

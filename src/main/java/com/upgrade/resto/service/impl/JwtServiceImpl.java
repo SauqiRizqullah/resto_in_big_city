@@ -7,7 +7,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.upgrade.resto.dto.response.JwtClaims;
 import com.upgrade.resto.entity.Customer;
-import com.upgrade.resto.entity.RestaurantAccount;
+import com.upgrade.resto.entity.Restaurant;
 import com.upgrade.resto.entity.Waiter;
 import com.upgrade.resto.service.JwtService;
 import com.auth0.jwt.exceptions.JWTVerificationException;
@@ -39,22 +39,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
 
-    @Override
-    public String generateRestaurantToken(RestaurantAccount restaurantAccount) {
-        try {
-            Algorithm algorithm = Algorithm.HMAC512(JWT_SECRET);
-            return JWT.create()
-                    .withSubject(restaurantAccount.getRestoId())
-                    .withClaim("roles", restaurantAccount.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
-                    .withIssuedAt(Instant.now())
-                    .withExpiresAt(Instant.now().plusSeconds(JWT_EXPIRATION))
-                    .withIssuer(ISSUER)
-                    .sign(algorithm);
 
-        } catch (JWTCreationException exception){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "error while creating jwt token");
-        }
-    }
 
     @Override
     public String generateWaiterToken(Waiter waiter) {
@@ -73,10 +58,7 @@ public class JwtServiceImpl implements JwtService {
         }
     }
 
-    @Override
-    public String generateCustomerToken(Customer customer) {
-        return "";
-    }
+
 
     @Override
     public boolean verifyJwtToken(String bearerToken) {

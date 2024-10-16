@@ -1,6 +1,5 @@
 package com.upgrade.resto.service.impl;
 
-import com.upgrade.resto.repository.RestaurantAccountRepository;
 import com.upgrade.resto.repository.UserAccountRepository;
 import com.upgrade.resto.service.UserService;
 import lombok.RequiredArgsConstructor;

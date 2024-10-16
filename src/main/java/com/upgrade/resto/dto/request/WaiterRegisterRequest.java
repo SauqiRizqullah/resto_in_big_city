@@ -19,4 +19,6 @@ public class WaiterRegisterRequest {
     private String waiterName;
     @NotBlank(message = "Phone number data must be filled")
     private String phoneNumber;
+    @NotBlank(message = "Resto id data must be filled")
+    private String restoId;
 }

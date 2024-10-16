@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RestaurantRegisterRequest {
+public class RestaurantRequest {
     @NotBlank(message = "Outlet data must be filled")
     private String outlet;
     @NotBlank(message = "City data must be filled")
@@ -17,5 +17,4 @@ public class RestaurantRegisterRequest {
     private String province;
     @NotBlank(message = "Contact data must be filled")
     private String contact;
-
 }

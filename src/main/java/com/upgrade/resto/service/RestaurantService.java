@@ -1,11 +1,23 @@
 package com.upgrade.resto.service;
 
-import com.upgrade.resto.entity.RestaurantAccount;
+import com.upgrade.resto.dto.request.RestaurantRequest;
+import com.upgrade.resto.dto.request.SearchRestaurantRequest;
+import com.upgrade.resto.dto.response.RestaurantResponse;
+import com.upgrade.resto.entity.Restaurant;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface RestaurantService extends UserDetailsService {
+public interface RestaurantService{
 
-    RestaurantAccount getByUserId(String id);
+    RestaurantResponse create(RestaurantRequest restaurantRequest);
 
-    RestaurantAccount getByContext();
+    RestaurantResponse getById(String restoId);
+
+    Page<RestaurantResponse> getAll(SearchRestaurantRequest searchRestaurantRequest);
+
+    String updateById(String restoId, String contact);
+
+    String deleteById(String restoId);
+
+    long count();
 }

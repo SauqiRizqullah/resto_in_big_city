@@ -29,11 +29,6 @@ public class MembershipServiceImpl implements MembershipService {
 
         membershipRepository.saveAndFlush(membership);
 
-        if (membershipRequest.getMembershipName() == "NONE"){
-            membership.setMembershipId("NONE");
-            membershipRepository.saveAndFlush(membership);
-        }
-
         return parseMembershipToMembershipResponse(membership);
     }
 

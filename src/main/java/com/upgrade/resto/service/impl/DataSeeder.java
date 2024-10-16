@@ -1,16 +1,10 @@
 package com.upgrade.resto.service.impl;
 
-import com.upgrade.resto.dto.request.BonusRequest;
-import com.upgrade.resto.dto.request.MembershipRequest;
-import com.upgrade.resto.dto.request.MenuRequest;
-import com.upgrade.resto.dto.request.RoleRequest;
+import com.upgrade.resto.dto.request.*;
 import com.upgrade.resto.dto.response.MembershipResponse;
 import com.upgrade.resto.dto.response.MenuResponse;
 import com.upgrade.resto.dto.response.RoleResponse;
-import com.upgrade.resto.service.BonusService;
-import com.upgrade.resto.service.MembershipService;
-import com.upgrade.resto.service.MenuService;
-import com.upgrade.resto.service.RoleService;
+import com.upgrade.resto.service.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,23 +23,17 @@ public class DataSeeder {
 
     private final BonusService bonusService;
 
+    private final RestaurantService restaurantService;
+
     @PostConstruct
     public void init(){
         if(roleService.count() == 0){
-            RoleRequest roleCustomer = new RoleRequest();
-            roleCustomer.setRoleName("CUSTOMER");
-
-            RoleResponse roleCustomerResponse = roleService.createNewRole(roleCustomer);
 
             RoleRequest roleWaiter = new RoleRequest();
             roleWaiter.setRoleName("WAITER");
 
-            RoleResponse roleWaiterResponse = roleService.createNewRole(roleWaiter);
+            roleService.createNewRole(roleWaiter);
 
-            RoleRequest roleCaptain = new RoleRequest();
-            roleCaptain.setRoleName("CAPTAIN");
-
-            RoleResponse roleCaptainResponse = roleService.createNewRole(roleCaptain);
             log.info("Successfully created role data");
         } else {
             log.info("Role data had already been created");
@@ -106,6 +94,29 @@ public class DataSeeder {
             log.info("Successfully created bonus data");
         } else {
             log.info("Bonus data had been created");
+        }
+
+        if(restaurantService.count() == 0){
+            RestaurantRequest plazaIndo = new RestaurantRequest();
+            plazaIndo.setOutlet("Plaza Indonesia");
+            plazaIndo.setCity("Jakarta Pusat");
+            plazaIndo.setContact("081331530903");
+            plazaIndo.setProvince("DKI Jakarta");
+
+            restaurantService.create(plazaIndo);
+
+            RestaurantRequest casblanca = new RestaurantRequest();
+            casblanca.setOutlet("Casablanca");
+            casblanca.setCity("Jakarta Pusat");
+            casblanca.setContact("081959530903");
+            casblanca.setProvince("DKI Jakarta");
+
+            restaurantService.create(casblanca);
+
+            log.info("Successfully created restaurants data");
+
+        } else {
+            log.info("Restaurant data had been created");
         }
 
     }
