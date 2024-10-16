@@ -1,5 +1,6 @@
 package com.upgrade.resto.service.impl;
 
+import com.upgrade.resto.entity.UserAccount;
 import com.upgrade.resto.repository.RestaurantAccountRepository;
 import com.upgrade.resto.repository.UserAccountRepository;
 import com.upgrade.resto.service.UserService;
@@ -19,18 +20,18 @@ public class UserServiceImpl implements UserService {
     private final UserAccountRepository userAccountRepository;
 
     @Override
-    public Object getByUserId(String id) {
+    public UserAccount getByUserId(String id) {
         return userAccountRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "id account not found")
         );
     }
 
     @Override
-    public Object getByContext() {
+    public UserAccount getByContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        return userAccountRepository.findByUsername(authentication.getPrincipal().toString()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "id account found from context")
+        String username = authentication.getName();
+        return userAccountRepository.findByUsername(username).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User account not found in context")
         );
     }
 

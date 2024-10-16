@@ -7,8 +7,8 @@ import com.upgrade.resto.repository.MembershipRepository;
 import com.upgrade.resto.service.MembershipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -19,6 +19,7 @@ public class MembershipServiceImpl implements MembershipService {
 
     private final MembershipRepository membershipRepository;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public MembershipResponse createNewMembership(MembershipRequest membershipRequest) {
 
@@ -29,10 +30,7 @@ public class MembershipServiceImpl implements MembershipService {
 
         membershipRepository.saveAndFlush(membership);
 
-        if (membershipRequest.getMembershipName() == "NONE"){
-            membership.setMembershipId("NONE");
-            membershipRepository.saveAndFlush(membership);
-        }
+
 
         return parseMembershipToMembershipResponse(membership);
     }
@@ -52,6 +50,7 @@ public class MembershipServiceImpl implements MembershipService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public MembershipResponse getById(String membershipId) {
         Membership membership = membershipRepository.findById(membershipId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,membershipId + "'s data was not there!!!"));
@@ -59,11 +58,13 @@ public class MembershipServiceImpl implements MembershipService {
         return parseMembershipToMembershipResponse(membership);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Membership> getAllMemberships() {
         return membershipRepository.findAll();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String updateBenefitById(String membershipId, String newBenefit) {
         Membership membership = membershipRepository.findById(membershipId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,membershipId + "'s data was not there!!!"));
@@ -75,6 +76,7 @@ public class MembershipServiceImpl implements MembershipService {
         return membershipId + "'s data has been updated!!!";
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String deleteById(String membershipId) {
         Membership membership = membershipRepository.findById(membershipId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,membershipId + "'s data was not there!!!"));

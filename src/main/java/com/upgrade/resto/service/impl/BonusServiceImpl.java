@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -25,6 +26,7 @@ public class BonusServiceImpl implements BonusService {
 
     private final BonusRepository bonusRepository;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BonusResponse createNewBonus(BonusRequest bonusRequest) {
         Bonus bonus = Bonus
@@ -53,6 +55,7 @@ public class BonusServiceImpl implements BonusService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public BonusResponse getById(String bonusId) {
         Bonus bonus = bonusRepository.findById(bonusId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"The data was not there"));
@@ -60,6 +63,7 @@ public class BonusServiceImpl implements BonusService {
         return parseBonusToBonusReponse(bonus);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<BonusResponse> getAllBonus(SearchBonusRequest searchBonusRequest) {
         // 1. Ketika nilai halaman 0, maka buatlah menjadi 1
@@ -87,6 +91,7 @@ public class BonusServiceImpl implements BonusService {
         return bonusRepository.findAll(specification,pageable);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String updatePoinById(String bonusId, Integer newPoin) {
         Bonus bonus = bonusRepository.findById(bonusId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"The data was not there"));
@@ -97,6 +102,7 @@ public class BonusServiceImpl implements BonusService {
         return bonusId + "'s data has been updated";
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String deleteById(String bonusId) {
         Bonus bonus = bonusRepository.findById(bonusId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"The data was not there"));

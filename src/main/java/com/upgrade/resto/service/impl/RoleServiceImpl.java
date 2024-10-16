@@ -8,6 +8,7 @@ import com.upgrade.resto.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
 
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public RoleResponse createNewRole(RoleRequest roleRequest) {
         Role role = Role.builder()
@@ -46,6 +47,7 @@ public class RoleServiceImpl implements RoleService {
 
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Role getById(String roleId) {
 
@@ -54,11 +56,13 @@ public class RoleServiceImpl implements RoleService {
         return role;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String updateById(String roleId, String newRoleName) {
         Role role = roleRepository.findById(roleId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Id was not found!!!"));
@@ -69,6 +73,7 @@ public class RoleServiceImpl implements RoleService {
         return "The new name of " + role.getRoleName() + " is " + newRoleName;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String deleteById(String roleId) {
         Role role = roleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Role Id tidak ditemukan"));

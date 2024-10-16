@@ -1,10 +1,11 @@
 package com.upgrade.resto.service;
 
+import com.upgrade.resto.entity.UserAccount;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
 
-    Object getByUserId(String id);
+    UserAccount getByUserId(String id);
 
-    Object getByContext();
+    UserAccount getByContext();
 }

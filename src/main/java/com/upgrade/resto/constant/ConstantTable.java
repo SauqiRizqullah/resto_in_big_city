@@ -12,4 +12,5 @@ public class ConstantTable {
     public static final String TRADE = "t_trades";
     public static final String TRADEDETAIL = "t_trade_details";
     public static final String ROLE = "m_roles";
+    public static final String ACCOUNT = "m_accounts";
 }

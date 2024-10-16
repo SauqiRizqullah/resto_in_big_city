@@ -44,7 +44,7 @@ public class JwtServiceImpl implements JwtService {
         try {
             Algorithm algorithm = Algorithm.HMAC512(JWT_SECRET);
             return JWT.create()
-                    .withSubject(restaurantAccount.getRestoId())
+                    .withSubject(restaurantAccount.getUserAccountId())
                     .withClaim("roles", restaurantAccount.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
                     .withIssuedAt(Instant.now())
                     .withExpiresAt(Instant.now().plusSeconds(JWT_EXPIRATION))
@@ -61,7 +61,7 @@ public class JwtServiceImpl implements JwtService {
         try {
             Algorithm algorithm = Algorithm.HMAC512(JWT_SECRET);
             return JWT.create()
-                    .withSubject(waiter.getWaiterId())
+                    .withSubject(waiter.getUserAccountId())
                     .withClaim("roles", waiter.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
                     .withIssuedAt(Instant.now())
                     .withExpiresAt(Instant.now().plusSeconds(JWT_EXPIRATION))

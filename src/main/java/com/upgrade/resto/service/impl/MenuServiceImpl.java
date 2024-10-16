@@ -65,6 +65,7 @@ public class MenuServiceImpl implements MenuService {
         return parseMenuToMenuResponse(menuRepository.findById(menuId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Id was not found!!!")));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<MenuResponse> getAllMenus(SearchMenuRequest searchMenuRequest) {
         // 1. Ketika nilai halaman 0, maka buatlah menjadi 1
@@ -92,6 +93,7 @@ public class MenuServiceImpl implements MenuService {
         return menuRepository.findAll(specification,pageable);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String updatePriceById(String menuId, Long newMenuPrice) {
 
@@ -103,12 +105,14 @@ public class MenuServiceImpl implements MenuService {
         return "The new price of " + menuObject.getMenuName() + " is " + newMenuPrice;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String deleteByMenuId(String menuId) {
         Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu Id tidak ditemukan"));
         menuRepository.delete(menu);
         return "We are so sad that " + menuId + "'s data is gone forever";
     }
+
 
     @Override
     public Long count() {

@@ -5,6 +5,7 @@
     import jakarta.persistence.*;
     import jakarta.validation.constraints.Pattern;
     import lombok.*;
+    import lombok.experimental.SuperBuilder;
     import org.hibernate.annotations.GenericGenerator;
     import org.springframework.security.core.GrantedAuthority;
     import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,30 +19,33 @@
     @NoArgsConstructor
     @Setter
     @Getter
-    @Builder
+//    @Builder
+    @SuperBuilder
+    @ToString(callSuper = true)
+    @EqualsAndHashCode(callSuper = true)
     @Table(name = ConstantTable.RESTAURANT_ACCOUNT)
-    public class RestaurantAccount implements UserDetails {
-        @Id
-        @GeneratedValue(generator = "custom-id")
-        @GenericGenerator(name = "custom-id", strategy = "com.upgrade.resto.utils.RestaurantCustomId")
-        @Column(name = "resto_id")
-        private String restoId;
+    public class RestaurantAccount extends UserAccount {
+//        @Id
+//        @GeneratedValue(generator = "custom-id")
+//        @GenericGenerator(name = "custom-id", strategy = "com.upgrade.resto.utils.RestaurantCustomId")
+//        @Column(name = "resto_id")
+//        private String restoId;
         @Column(name = "outlet")
         private String outlet;
 
 
-        @Pattern(
-                regexp = "^[A-Za-z0-9.]+@(gmail|yahoo|hotmail|outlook)\\.(com|co\\.id)$",
-                message = "Invalid email format. Must end with .com or .co.id and use domain gmail, yahoo, or hotmail."
-        )
-        @Column(name = "email", nullable = false, unique = true)
-        private String email;
-
-        @Column(name = "username", nullable = false, unique = true)
-        private String username;
-
-        @Column(name = "password", nullable = false)
-        private String password;
+//        @Pattern(
+//                regexp = "^[A-Za-z0-9.]+@(gmail|yahoo|hotmail|outlook)\\.(com|co\\.id)$",
+//                message = "Invalid email format. Must end with .com or .co.id and use domain gmail, yahoo, or hotmail."
+//        )
+//        @Column(name = "email", nullable = false, unique = true)
+//        private String email;
+//
+//        @Column(name = "username", nullable = false, unique = true)
+//        private String username;
+//
+//        @Column(name = "password", nullable = false)
+//        private String password;
 
         @Column(name = "city")
         private String city;
@@ -55,42 +59,4 @@
         @JsonManagedReference
         private List<Waiter> waiters;
 
-        @ManyToMany(fetch = FetchType.EAGER)
-        private List<Role> role;
-
-
-        @Override
-        public Collection<? extends GrantedAuthority> getAuthorities() {
-            return role.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).toList();
-        }
-
-        @Override
-        public String getPassword() {
-            return password;
-        }
-
-        @Override
-        public String getUsername() {
-            return username;
-        }
-
-        @Override
-        public boolean isAccountNonExpired() {
-            return UserDetails.super.isAccountNonExpired();
-        }
-
-        @Override
-        public boolean isAccountNonLocked() {
-            return UserDetails.super.isAccountNonLocked();
-        }
-
-        @Override
-        public boolean isCredentialsNonExpired() {
-            return UserDetails.super.isCredentialsNonExpired();
-        }
-
-        @Override
-        public boolean isEnabled() {
-            return UserDetails.super.isEnabled();
-        }
     }

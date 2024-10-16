@@ -15,6 +15,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class DataSeeder {
 
     private final BonusService bonusService;
 
+    @Transactional(rollbackFor = Exception.class)
     @PostConstruct
     public void init(){
         if(roleService.count() == 0){
