@@ -48,10 +48,10 @@ public class MembershipServiceImpl implements MembershipService {
     }
 
     @Override
-    public MembershipResponse getById(String membershipId) {
+    public Membership getById(String membershipId) {
         Membership membership = membershipRepository.findById(membershipId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,membershipId + "'s data was not there!!!"));
 
-        return parseMembershipToMembershipResponse(membership);
+        return membership;
     }
 
     @Override

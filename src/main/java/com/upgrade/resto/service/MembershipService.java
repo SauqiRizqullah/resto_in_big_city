@@ -9,7 +9,7 @@ import java.util.List;
 public interface MembershipService {
     MembershipResponse createNewMembership(MembershipRequest membershipRequest);
 
-    MembershipResponse getById(String membershipId);
+    Membership getById(String membershipId);
 
     List<Membership> getAllMemberships();
 

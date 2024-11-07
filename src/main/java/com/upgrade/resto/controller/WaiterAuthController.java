@@ -1,8 +1,6 @@
 package com.upgrade.resto.controller;
 
 import com.upgrade.resto.constant.APIUrl;
-import com.upgrade.resto.dto.request.RestaurantLoginRequest;
-import com.upgrade.resto.dto.request.RestaurantRegisterRequest;
 import com.upgrade.resto.dto.request.WaiterLoginRequest;
 import com.upgrade.resto.dto.request.WaiterRegisterRequest;
 import com.upgrade.resto.dto.response.*;

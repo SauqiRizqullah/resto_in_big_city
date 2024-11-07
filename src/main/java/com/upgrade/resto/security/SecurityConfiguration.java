@@ -40,8 +40,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req -> req
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
 //                        .requestMatchers("/api/v1/restoAuth/**").permitAll()
-                        .requestMatchers("/api/v1/waiterAuth/register").hasAnyRole("WAITER")
-                        .requestMatchers("/api/v1/waiterAuth/login").permitAll()
+//                        .requestMatchers("/api/v1/waiterAuth/register").hasAnyRole("WAITER")
+                        .requestMatchers("/api/v1/waiterAuth/**").permitAll()
 //                        .requestMatchers("/api/v1/customerAuth/register").hasAnyRole("WAITER")
 //                        .requestMatchers("/api/v1/customerAuth/login").permitAll()
                         .requestMatchers("api/v1/**").hasAnyRole("WAITER")

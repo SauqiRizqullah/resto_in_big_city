@@ -43,14 +43,14 @@ public class MembershipController {
     }
 
     @GetMapping(path = APIUrl.PATH_VAR_MEMBERSHIP_ID, produces = "application/json")
-    public ResponseEntity<CommonResponse<MembershipResponse>> getMembershipById(
+    public ResponseEntity<CommonResponse<Membership>> getMembershipById(
             @PathVariable String membershipId
     ) {
         // 1. Membuat objek Menu Response
-        MembershipResponse membership = membershipService.getById(membershipId);
+        Membership membership = membershipService.getById(membershipId);
 
         // 2. Membuat objek Common Response untuk mengisi data response
-        CommonResponse<MembershipResponse> response = CommonResponse.<MembershipResponse>builder()
+        CommonResponse<Membership> response = CommonResponse.<Membership>builder()
                 .statusCode(HttpStatus.OK.value())
                 .message(membershipId + "'s data was already retrieved")
                 .data(membership)
