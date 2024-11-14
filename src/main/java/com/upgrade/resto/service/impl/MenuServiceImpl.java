@@ -114,4 +114,10 @@ public class MenuServiceImpl implements MenuService {
     public Long count() {
         return menuRepository.count();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Menu getByIdForTransaction(String menuId) {
+        return menuRepository.findById(menuId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Id was not found!!!"));
+    }
 }

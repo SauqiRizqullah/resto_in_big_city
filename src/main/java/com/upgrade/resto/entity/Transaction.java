@@ -31,8 +31,8 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-    @Column(name = "total_price")
-    private Long totalPrice;
+//    @Column(name = "total_price")
+//    private Long totalPrice;
     @Temporal(TemporalType.DATE)
     @Column(name = "trans_date", updatable = false)
     private Date transDate;

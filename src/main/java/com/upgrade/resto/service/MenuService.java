@@ -4,6 +4,7 @@ package com.upgrade.resto.service;
 import com.upgrade.resto.dto.request.MenuRequest;
 import com.upgrade.resto.dto.request.SearchMenuRequest;
 import com.upgrade.resto.dto.response.MenuResponse;
+import com.upgrade.resto.entity.Menu;
 import org.springframework.data.domain.Page;
 
 public interface MenuService {
@@ -18,4 +19,6 @@ public interface MenuService {
     String deleteByMenuId (String menuId);
 
     Long count();
+
+    Menu getByIdForTransaction(String menuId);
 }

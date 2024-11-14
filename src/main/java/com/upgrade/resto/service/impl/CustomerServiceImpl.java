@@ -26,6 +26,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
@@ -115,5 +117,20 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.deleteById(customer.getCustomerId());
 
         return customerId + "'s data was successfully deleted";
+    }
+
+    @Override
+    public Integer updatePoin(String customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The data was not in database"));
+
+        if (Objects.equals(customer.getMembership().getMembershipName(), "SILVER")){
+            customer.setPoin(customer.getPoin() + 3);
+        } else if (Objects.equals(customer.getMembership().getMembershipName(), "GOLD")){
+            customer.setPoin(customer.getPoin() + 7);
+        }
+
+        customerRepository.saveAndFlush(customer);
+
+        return customer.getPoin();
     }
 }

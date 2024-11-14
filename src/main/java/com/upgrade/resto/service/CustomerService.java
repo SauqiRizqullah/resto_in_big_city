@@ -16,4 +16,6 @@ public interface CustomerService {
     String updateById(String customerId, String phoneNo);
 
     String deleteById(String customerId);
+
+    Integer updatePoin(String customerId);
 }
